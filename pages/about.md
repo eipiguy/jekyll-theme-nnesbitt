@@ -3,12 +3,13 @@ layout: page
 title: About
 permalink: /about/
 feature-img: "assets/img/pexels/travel.jpeg"
-tags: [Page]
+tags: [Page, about, credentials, planning]
 ---
 
-Type on Strap is based on Type Theme, a free and open-source theme for [Jekyll](http://jekyllrb.com/), licensed under the MIT License.
+Welcome! My name is **Neal**, but you'll see my handle `eipiguy` everywhere. That's pronounced "*ee-eye-pie-guy*", as in $$e^{i\pi}$$guy. Take the implications of that how you will. ;)
 
-Head over to the [theme's documentation](https://github.io/sylhare/Type-on-Strap) for much more information about Type on Strap or to install this theme on your own Jekyll site.
+I'm currently planing on using this new website as a place to record and organize my project progress. I'm working on various things, and it will serve as somewhere between a development blog, portfolio, and just general play space.
 
-This file is an example of a page in Jekyll, that automatically shows up in the header navigation, you can delete or modify this file freely.
- 
+This site is mostly for myself, but feel free to reach out at any of the linked social media sites. I don't check social media often, but I will *try* to get back to you. No promises! =P
+
+### [Credentials!](/portfolio/resume)
