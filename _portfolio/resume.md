@@ -9,7 +9,7 @@ tags: [about, credentials, planning]
 
 [![resume_img](/docs/resume/resume.jpg)](/docs/resume/resume.pdf)
 
-### [Source Code](https://github.com/eipiguy/resume) in $$\LaTeX$$
+[**Source Code**](https://github.com/eipiguy/resume) in $$\LaTeX$$
 
 ### Inspiration
 

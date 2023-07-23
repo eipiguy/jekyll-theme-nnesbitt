@@ -7,9 +7,8 @@ img: "assets/img/portfolio/ttt.png"
 date: 2023-07-22
 ---
 
-### [Status Report](#report)
-
-### [Emoji Legend](#metrics)
+[**Status Report**](#report)\\
+[**Emoji Legend**](#metrics)
 
 <div class="mermaid">
 flowchart LR
