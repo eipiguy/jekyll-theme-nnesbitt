@@ -2,6 +2,7 @@
 layout: page
 author: eipiguy
 title: Projects
+permalink: /projects/
 feature-img: "assets/img/portfolio/ttt.png"
 img: "assets/img/portfolio/ttt.png"
 date: 2023-07-22
@@ -13,7 +14,7 @@ date: 2023-07-22
 <div class="mermaid">
 flowchart LR
 
-  website("Website\n 😄 🍞 🐁 🚀")
+  website(["Website\n 😄 🍞 🐁 ⏰"])
   resume(["Resume\n 🫤 🍞 🐁 🎄"])
   imagetournament["Image Tournament\n 😄 🍞 🐁 🚀"]
   spelllooker["Spell Looker\n 🫤 🍞 🐉 ✈️"]
@@ -76,12 +77,12 @@ flowchart LR
 | 😄 | 🍞 | 🐁 | 📆 | Planning | the process of coming up with and organizing plans |
 | 🫤 | 🍞 | 🐁 | 🎄 | Resume | professional achievements formatted for printing |
 | 🫤 | 🍞 | 🐉 | 🎄 | Inclusions Back | diffusion, advection, reaction system with statistical inclusions |
+| 😄 | 🍞 | 🐁 | ⏰ | Website | my publicly facing website to have fun and show off |
 
 ### Under Construction
 
 | Excitement | Cost  | Complexity | Duration | Project | Description |
 | :---:      | :---: | :---:      | :---:    | :--     | :--         |
-| 😄 | 🍞 | 🐁 | 🚀 | Website | my publicly facing website to have fun and show off |
 | 😄 | 🍞 | 🐁 | 🚀 | Jack of All Trades | **good**, 2 player, euchre-like, trick-taking game |
 | 😄 | 🍞 | 🐉 | ✈️ | SpaceWhales! | 2d kerbal space program without the construction |
 | 😄 | 🍞 | 🐁 | 🚀 | Farmer/Soldier | predator/prey simulation |
