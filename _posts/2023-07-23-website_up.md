@@ -7,16 +7,6 @@ tags: [Post, website, planning, goals, jekyll]
 excerpt_separator: <!--more-->
 ---
 
-## Updates
-
-- [Website](#how-many-times-have-i-done-this)
-  - Jekyll
-  - Mermaid
-  - Markdown
-- [Now what?](#now-its-time-to-polish)
-  - p5js simulations/games
-- [Goals](#where-i-want-to-be)
-
 ## How many times have I done this?
 
 I'd say that third time is the charm, but I think we're past 3 by now. I want a website so bad. A clean one that's easy to make, and I think the time has finally come! =D
