@@ -1,24 +1,31 @@
-let images = [];
-let relative_paths;
+let grid;
 
 function preload() {
-	relative_paths = loadStrings('/docs/midjourney/midjourney/file_paths.txt')
+  relative_paths = loadStrings('/docs/midjourney/midjourney/file_paths.txt');
 }
 
 function setup() {
-	const containerWidth = document.getElementById('container').offsetWidth;
-	let canvas = createCanvas(containerWidth, 800);
-	canvas.parent('container');
-	//noLoop();
+  const containerWidth = document.getElementById('container').offsetWidth;
+  let canvas = createCanvas(containerWidth, 800);
+  canvas.parent('container');
+  //noLoop();
 
-	for (let i = 0; i < relative_paths.length; i++) {
-		images[i] = loadImage('/docs/midjourney/midjourney/' + relative_paths[i]);
-	}
+  grid = new DragImageGrid(relative_paths, 100, 100);
 }
 
 function draw() {
-	background(220);
-	for (let i = 0; i < images.length; i++) {
-		image(images[i], i * 100, 0);
-	}
+  background(220);
+  grid.draw();
+}
+
+function mousePressed() {
+  grid.mousePressed();
+}
+
+function mouseDragged() {
+  grid.mouseDragged();
+}
+
+function mouseReleased() {
+  grid.mouseReleased();
 }

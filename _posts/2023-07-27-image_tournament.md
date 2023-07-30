@@ -23,7 +23,7 @@ That, dear friends, is the correct answer.
 
 <!--more-->
 
-## Sorting is Binary Comparisons All the Way Down
+## Sorting is binary comparisons, all the way down
 
 Let's say that you have a directory full of images. Like say [the one I have for midjourneyed project logos]()!
 
@@ -50,6 +50,7 @@ How would we find out what that line is from a "bag" of images? Well, [that's wh
 This is assuming you *want* the computer's help with the process. I can of course just give a grid of drag and drop images, and let you act as your own sorting algorithm.
 
 <div id='container'></div>
+<script src="/docs/imagetournament/dragImageGrid.js"></script>
 <script src="/docs/imagetournament/imagetournament_0.js"></script>
 
 I have a sneaking suspicion the computer might be faster and more reliable though. We'll compare in the end.
