@@ -17,8 +17,6 @@ flowchart LR
 
   website(["Website\n 😄 🍞 🐁 ⏰"])
   resume(["Resume\n 🫤 🍞 🐁 🎄"])
-  imagetournament["Image Tournament\n 😄 🍞 🐁 🚀"]
-  spelllooker["Spell Looker\n 🫤 🍞 🐉 ✈️"]
 
   subgraph games["Games"]
     jackofalltrades("Jack of All Trades\n 😄 🍞 🐁 🚀")
@@ -32,42 +30,43 @@ flowchart LR
   inclusionsback(["Inclusions Backend\n 🫤 🍞 🐉 🎄"])
 
   website---resume
-  website---games
-  website---cellularstates
-  website-.-imagetournament
-  spelllooker-.-imagetournament
+  website-.-games
+  website-.-cellularstates
 
   inclusionsfront-.-inclusionsback
 
   graphchat("GraphChat\n 😄 🍞 🐉 ✈️")
+  imagetournament("Image Tournament\n 😄 🍞 🐁 🚀")
   monotextdisplay("Monotext Display\n 😄 🍞 🐁 ✈️")
   spellbook("Spellbook\n 😄 🍞 🐁 ✈️")
   roleplay("Roleplay\n 😄 🍞 🐉 🚌")
   planning(["Planning\n 🫤 🍞 🐁 📆"])
 
-  graphchat---monotextdisplay
-  graphchat---spellbook
-  graphchat---roleplay
-  graphchat---planning
+  graphchat-.-imagetournament
+  graphchat-.-monotextdisplay
+  graphchat-.-spellbook
+  graphchat-.-roleplay
+  graphchat-.-planning
 
-  roleplay---planning
+  roleplay-.-planning
 
-  monotextdisplay---spellbook
+  imagetournament-.-spellbook
+  monotextdisplay-.-spellbook
 
-  planning---spellbook
+  planning-.-spellbook
 
   handwriting("Handwriting\n 🫤 🍞 🐉 ✈️")
   pnggcode("PNG to GCode\n 🫤 🥩 🐁 🚀")
 
-  handwriting---pnggcode
+  handwriting-.-pnggcode
 
   table(["Table\n 🫤 💍 🐁 🎄"])
   trains("TTrack Trains\n 😄 💍 🐁 ✈️")
   treeclimber["Tree Climber\n 😄 💍 🐉 ✈️"]
   trees("Model Trees\n 😄 🥩 🐉 ✈️")
 
-  trains---table
-  trains---trees
+  trains-.-table
+  trains-.-trees
   treeclimber-.-trees
 </div>
 
@@ -113,7 +112,7 @@ flowchart LR
 ### Usable
 
 | Project | Excitement | Cost  | Complexity | Maintenance |
-| :--    | :---:      | :---: | :---:      | :---:       |
+| :--     | :---:      | :---: | :---:      | :---:       |
 | Website | 😄 | 🍞 | 🐁 | ⏰ |
 | Planning | 🫤 | 🍞 | 🐁 | 📆 |
 | Resume | 🫤 | 🍞 | 🐁 | 🎄 |
@@ -129,7 +128,8 @@ flowchart LR
 ### Under Construction
 
 | Project | Excitement | Cost  | Complexity | Maintenance |
-| :--    | :---:      | :---: | :---:      | :---:       |
+| :--     | :---:      | :---: | :---:      | :---:       |
+| Image Tournament | 😄 | 🍞 | 🐁 | 🚀 |
 | Iconography | 🫤 | 🍞 | 🐁 | 🚀 |
 | Jack of All Trades | 😄 | 🍞 | 🐁 | 🚀 |
 | SpaceWhales! | 😄 | 🍞 | 🐉 | ✈️ |
@@ -143,6 +143,7 @@ flowchart LR
 | Model Trees | 😄 | 🥩 | 🐉 | ✈️ |
 | Handwriting | 🫤 | 🍞 | 🐉 | ✈️ |
 
+- Image Tournament - gamify prioritization from a folder of pictures
 - Iconography - custom icons, avatars, and etc for website and more
 - Jack of All Trades - 2 player, euchre-like, trick-taking game
 - SpaceWhales! - 2d kerbal space program without the construction
@@ -159,17 +160,18 @@ flowchart LR
 ### Potentials
 
 | Project | Excitement | Cost  | Complexity | Maintenance |
-| :--    | :---:      | :---: | :---:      | :---:       |
-| Image Tournament | 😄 | 🍞 | 🐁 | 🚀 |
+| :--     | :---:      | :---: | :---:      | :---:       |
 | Tree Climber | 😄 | 💍 | 🐉 | ✈️ |
 | Inclusions Front | 🫤 | 🍞 | 🐉 | ✈️ |
 
-- Image Tournament - gamify prioritization from a folder of pictures
 - Tree Climber - camera eyes on a "circular tree centipede"
 - Inclusions Front - manipulator for inclusions simulation
 
 ## New Ideas
 
+- BegleriBot - animatronic fingers that can do begleri tricks
+- Backgammon Board - full size board with leather surface and decorative inlay
+- Cheap Polarimeter - polarized camera for imaging and characterization
 - LED Cube - classic 3D LED display firmware project
 - Spell Looker - track your style for AI image generation
 - Digestion Timer - stopwatch to measure processing times
