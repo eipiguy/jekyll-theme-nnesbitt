@@ -1,3 +1,4 @@
+const containerHeight = 500
 let grid;
 
 function preload() {
@@ -6,15 +7,15 @@ function preload() {
 
 function setup() {
   const containerWidth = document.getElementById('container').offsetWidth;
-  let canvas = createCanvas(containerWidth, 800);
+  let canvas = createCanvas(containerWidth, containerHeight);
   canvas.parent('container');
   //noLoop();
 
-  grid = new DragImageGrid(relative_paths, 100, 100);
+  grid = new DragImageGrid(relative_paths, containerWidth, containerHeight);
 }
 
 function draw() {
-  background(220);
+  background(0);
   grid.draw();
 }
 
