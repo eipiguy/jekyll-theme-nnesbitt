@@ -23,7 +23,7 @@ That, dear friends, is the correct answer.
 
 <!--more-->
 
-## Sorting is binary comparisons, all the way down... right?
+## Which ones do you like best?
 
 Let's say that you have a directory full of images. Like say [the one I have for midjourneyed project logos]()!
 
@@ -37,7 +37,7 @@ But...
 
 ### Which ones do you like best?
 
-You might imagine just "ordering", or "placing", them in a theoretical line from "best" to "worst", whatever that means, and then trying to sort out what position things should be in. It's definitely my first instinct, but something seems off about it:
+You might imagine just "ordering", or "placing", them in a theoretical line from "best" to "worst", whatever that means, and then trying to sort out what position things should be in all at once. It's definitely my first instinct, but something seems off about it:
 
 <div class="mermaid">
 graph LR
@@ -47,173 +47,71 @@ best["Best"]-->good["Good"]-->dots["..."]-->bad["Bad"]-->worst["Worst"]
 
 If we start with a "bag" of images we gather and stick in a directory in no particular order, how would you figure out which ones are the best? What if there were 100 images? 1000? What if groups of 20+ are all essentially the same image with only small variations?
 
-Well, my second instinct is ["that is what sorting algorithms are designed to do!"](https://en.wikipedia.org/wiki/Sorting_algorithm), we want to minimize the number of comparisons needed to figure out that line!
+Is this really the right structure for encompassing the relationships between the preferences?
 
-But this is assuming you *want* a computer's help with the sorting process. Your on onw now reading this supposedly, so not doing it with a computer is a bit moot, but you know what I mean: the computer's help with the *sorting system*, not the act of using a computer to do virtual work.
+## Behold, my stuff!
+
+This project actually came from my daughter's insatiable love of everything she sees. ;)
+
+Now we have a system: we go through the toy store (or Claires), and take pictures of everything she wants and can afford. We print out little pictures of all those images that we tape to the wall, or a mirror, or window in a tournament-style bracketing system!
+
+Pick pairs and ask "do you like this one or this one better?". Give yourself a loser bracket as well. Semi-finals come and you'll have substantial desires emerging from the rest.
+
+## Sorting is comparing ...right?
+
+So, my second instinct is ["that is what sorting algorithms are designed to do!"](https://en.wikipedia.org/wiki/Sorting_algorithm), we want to minimize the number of comparisons needed to figure out that line!
+
+But this is assuming you *want* a computer's help with the sorting process. You now reading this on a computer of some sort, supposedly, so not doing it with a computer is a bit moot. But you know what I mean: the computer's help with the *sorting system*, not the act of using a computer to do virtual work.
 
 Maybe a grid of drag and drop images is best. You act as your own sorting algorithm, no comparisons necessary.
 
-<div id='container'></div>
-<script src="/docs/imagetournament/dragImageGrid.js"></script>
-<script src="/docs/imagetournament/imagetournament.js"></script>
+<div id='grid-container'></div>
+<script defer src="/docs/imagetournament/dragImageGrid.js"></script>
+<script defer src="/docs/imagetournament/imagetournament_grid.js"></script>
 
-I have a sneaking suspicion n-up comparisons might be faster and potentially more reliable if we're clever.
+But it's a lot to hold in your head. You're prejudiced by the shape of the container you present them in and where/how the images are presented. How do you look close enough to see what the images are at all when you have to fit so many in your field of view? A scroll bar makes me dizzy, and I don't want to click buttons to needlessly scroll either.
 
-But it comes to mind that there are other ways of sorting things, too. Why am I so stuck in comparison mode? Midjourney uses a 4-up style system, but it's really a branching tree. They're experimenting with the size of their grid too, so that's not set in stone.
+There's just too much to do all at once. We need to break the problem down.
 
-I had never heard of "non-comparison sorts" until I opened that wiki above, and now that I think about it, most apps use a 0-5 stars system of rating things. That's not direct comparison at all. It's "rating" rather than "ranking". I suppose one can be derived from the other, and that's essentially what we're exploring here.
+I have a sneaking suspicion n-up comparisons might be faster and potentially more reliable if we're clever anyway.
 
-How do these all fit together and compare? Are they equivalent or equally useful? In what circumstances?
+### Non-Comparison Sorting
 
-I will have to admit to being a novice in these things as we move forward. I'm sure some of you may have more experience with these things than I do. Feel free to skip anything you find silly or old hat. ;)
+But it comes to mind that there are other ways of sorting things, too. Why am I so stuck in comparison mode? Midjourney uses a 4-up style system, so that' what I've gotten stuck in lately. These n-up choices really form a branching tree where at each split they produce n-"child" choices. They're experimenting with the size of their grid too, so that's not set in stone as the "optimal".
 
-> Here's the gpt + cleaning, throw-together jank that makes the above work. Please excuse the rank smell emanating from all my code samples. At this stage of my life, I care more about getting something out into the world than making it perfect the first time. I can clean it later if I have time and decide it's worthwhile.
+I had never thought of "non-comparison sorts" either until I opened that wiki link above, and now that I think about it, most apps do use a 0-5 stars system of rating things. That's not direct comparison at all. It's more like a "1-up". It presents a choice of "rating" rather than "ranking".
+
+I suppose one can be derived from the other... can't it? I guess that's essentially what we're exploring here.\
+Are they equivalent or equally useful? In what circumstances? Can they be combined?
+
+I will have to admit to being a novice in these things as we move forward. I'm sure some of you may have more experience than I do. Feel free to skip anything you find silly or old hat. ;)
+
+## Let the computer do the work
+
+So let's try to break the problem down in the easiest way first. We'll pick our favorite sorting algorithm and replace the comparison callbacks.
+
+Instead of checking if one element is "less than" the other automatically, which doesn't mean much yet, we'll prompt the user at each comparison to rank the two current images. We'll use "bigger means better" as our guiding design, and then we can order the images in a line using the same method the sorting algorithm does.
+
+Maybe we can make a tournament for the sorting algorithms too! ...idk, that sounds like work. <_<
+
+<div id='nup-container'></div>
+<script defer src="/docs/imagetournament/imagetournament_compare.js"></script>
+
+> Here's the gpt + 4 * (cleaning + refactor), throw-together jank that makes the above work. Please excuse the rank smell emanating from all my code samples. At this stage of my life, I care more about getting something usable out into the world than making it perfect the first time. I can put in more time later if I have it and decide the effort is worthwhile.
 >
->I've put this code into 2 files, separating the bulk into its own class. That way it can be reused later.
+>I've divided this code into 2 files, separating the grid functionality into its own class in an attempt to make it reusable.
 
 [**One file for the draggable grid:**](/docs/imagetournament/dragImageGrid.js)
 
 ```javascript
-class DragImageGrid {
-  constructor(relative_paths, containerWidth, containerHeight, cellWidth = 100, cellHeight = 100) {
-    this.containerWidth = containerWidth;
-    this.containerHeight = containerHeight;
-
-    this.cell_stacks = [];
-    this.cell_coords = [];
-    this.cellWidth = cellWidth;
-    this.cellHeight = cellHeight;
-    this.cols = Math.trunc( containerWidth / cellWidth );
-    this.rows = Math.trunc( containerHeight / cellHeight );
-    this.num_cells = this.rows * this.cols;
-
-    this.dragCellIndex = -1;
-    this.dragImage;
-    this.dragImageX = 0;
-    this.dragImageY = 0;
-    this.mouseOffsetX = 0;
-    this.mouseOffsetY = 0;
-
-    let row = 0;
-    let col = 0;
-    for(let i = 0; i < this.rows; i++) {
-      for(let j=0; j< this.cols; j++) {
-        let cur_id = (i * this.cols) + j;
-        this.cell_stacks[cur_id] = [];
-        this.cell_coords[cur_id] = {
-          x: j * cellWidth,
-          y: i * cellHeight
-        };
-      }
-    }
-
-    for (let i = 0; i < relative_paths.length && i < this.num_cells; i++) {
-      let cur_img = loadImage('/docs/midjourney/midjourney/' + relative_paths[i]);
-      this.cell_stacks[i].push(cur_img);
-    }
-  }
-
-  getCellIndex(x, y) {
-    let col = Math.trunc( x / this.cellWidth );
-    let row = Math.trunc( y / this.cellWidth );
-    return ( row * this.cols ) + col;
-  }
-
-  draw() {
-    let num_stack_imgs = 0;
-    for (let i = 0; i < this.cell_stacks.length; i++) {
-      num_stack_imgs =  this.cell_stacks[i].length;
-      if(num_stack_imgs > 0) {
-        image(
-          this.cell_stacks[i][ this.cell_stacks[i].length - 1 ],
-          this.cell_coords[i].x,
-          this.cell_coords[i].y,
-          this.cellWidth,
-          this.cellHeight
-        );
-      }
-    }
-
-    if(this.dragCellIndex != -1) {
-      image(
-        this.dragImage,
-        this.dragImageX,
-        this.dragImageY,
-        this.cellWidth,
-        this.cellHeight
-      );
-    }
-  }
-  
-  mousePressed() {
-    let cellIndex = this.getCellIndex(mouseX, mouseY);
-    if(this.cell_stacks[cellIndex].length > 0) {
-      this.dragCellIndex = cellIndex;
-      this.dragImage = this.cell_stacks[cellIndex].pop();
-      this.dragImageX = this.cell_coords[cellIndex].x;
-      this.dragImageY = this.cell_coords[cellIndex].y;
-      this.mouseOffsetX = mouseX - this.dragImageX;
-      this.mouseOffsetY = mouseY - this.dragImageY;
-    }
-  }
-
-  mouseDragged() {
-    this.dragImageX = mouseX - this.mouseOffsetX;
-    this.dragImageY = mouseY - this.mouseOffsetY;
-  }
-
-  mouseReleased() {
-    if(this.dragCellIndex != -1) {
-      let cellIndex = this.getCellIndex(mouseX, mouseY);
-      this.cell_stacks[cellIndex].push(this.dragImage);
-      this.dragCellIndex = -1;
-      this.dragImageX = 0;
-      this.dragImageY = 0;
-      this.mouseOffsetX = 0;
-      this.mouseOffsetY = 0;
-    }
-  }
-}
 ```
 
-[**One file for the script that calls it:**]()
+[**One file for the script that calls it:**](/docs/imagetournament/dragImageGrid.js)
 
 ```javascript
-const containerHeight = 500
-let grid;
-
-function preload() {
-  relative_paths = loadStrings('/docs/midjourney/midjourney/file_paths.txt');
-}
-
-function setup() {
-  const containerWidth = document.getElementById('container').offsetWidth;
-  let canvas = createCanvas(containerWidth, containerHeight);
-  canvas.parent('container');
-  //noLoop();
-
-  grid = new DragImageGrid(relative_paths, containerWidth, containerHeight);
-}
-
-function draw() {
-  background(0);
-  grid.draw();
-}
-
-function mousePressed() {
-  grid.mousePressed();
-}
-
-function mouseDragged() {
-  grid.mouseDragged();
-}
-
-function mouseReleased() {
-  grid.mouseReleased();
-}
 ```
 
-But they were, all of them, deceived, for another file was made.
+[But they were, all of them, deceived, for another file was made.]()
 
 I then stick it into this markdown document by attaching it to the container mentioned in that second file, `canvas.parent('container');`. You also need a way to get p5js online to run the scripts, so I normally include a script link at the top of my files.
 
@@ -249,9 +147,7 @@ Quite useful if you're careful about the symbols really. We can always drift int
 
 Now that you have what you think is your line of images, let us try to replicate the same thing with other methods. I'll start with my second instinct: more rudimentary, but hopefully fewer, comparisons.
 
-We'll pick our favorite sorting algorithm and replace the comparison callbacks.
 
-Instead of checking if one element is "less than" the other, which doesn't mean much yet, we'll prompt the user at each comparison to rank the two current images. We'll use "bigger means better" as our guiding design, and then we can order the images in a line, the same way sorting algorithm does.
 
 ## Sub-Groups
 

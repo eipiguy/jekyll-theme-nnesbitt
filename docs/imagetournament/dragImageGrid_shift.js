@@ -1,20 +1,17 @@
 class DragImageGrid {
-	constructor(sketch, relative_paths, containerWidth, containerHeight, cellWidth = 150, cellHeight = 150, draggable = true) {
-		this.sketch = sketch
+	constructor(relative_paths, containerWidth, containerHeight, cellWidth = 150, cellHeight = 150) {
 		this.containerWidth = containerWidth;
 		this.containerHeight = containerHeight;
-		this.cellWidth = cellWidth;
-		this.cellHeight = cellHeight;
 
 		this.cell_stacks = [];
 		this.cell_coords = [];
-		this.minStackSize = 1;
-		this.maxStackSize = 1;
-		this.draggable = draggable;
-
+		this.cellWidth = cellWidth;
+		this.cellHeight = cellHeight;
 		this.cols = Math.trunc( containerWidth / cellWidth );
 		this.rows = Math.trunc( containerHeight / cellHeight );
 		this.num_cells = this.rows * this.cols;
+		this.minStackSize = 1
+		this.maxStackSize = 1
 
 		this.dragCellIndex = -1;
 		this.dragImage;
@@ -23,6 +20,8 @@ class DragImageGrid {
 		this.mouseOffsetX = 0;
 		this.mouseOffsetY = 0;
 
+		let row = 0;
+		let col = 0;
 		for(let i = 0; i < this.rows; i++) {
 			for(let j=0; j< this.cols; j++) {
 				let cur_id = (i * this.cols) + j;
@@ -35,19 +34,19 @@ class DragImageGrid {
 		}
 
 		for (let i = 0; i < relative_paths.length && i < this.num_cells; i++) {
-			let cur_img = sketch.loadImage('/docs/midjourney/midjourney/' + relative_paths[i]);
+			let cur_img = loadImage('/docs/midjourney/midjourney/' + relative_paths[i]);
 			this.cell_stacks[i].push(cur_img);
 		}
 	}
 
 	getCellIndex(x, y) {
 		let col = Math.trunc( x / this.cellWidth );
-		let row = Math.trunc( y / this.cellHeight );
+		let row = Math.trunc( y / this.cellWidth );
 		return ( row * this.cols ) + col;
 	}
 
 	nextFilledCell(i) {
-		for(let j = i + 1; j < this.cell_stacks.length; j++) {
+		for(let j = i+1; j < this.cell_stacks.length; j++) {
 			if( this.cell_stacks[j].length > 0 ) {
 				return j;
 			}
@@ -77,7 +76,7 @@ class DragImageGrid {
 
 			// if any left, draw top
 			if(num_stack_imgs > 0) {
-				this.sketch.image(
+				image(
 					this.cell_stacks[i][ this.cell_stacks[i].length - 1 ],
 					this.cell_coords[i].x,
 					this.cell_coords[i].y,
@@ -88,7 +87,7 @@ class DragImageGrid {
 		}
 
 		if(this.dragCellIndex != -1) {
-			this.sketch.image(
+			image(
 				this.dragImage,
 				this.dragImageX,
 				this.dragImageY,
@@ -99,29 +98,25 @@ class DragImageGrid {
 	}
   
 	mousePressed() {
-		if(this.draggable) {
-			let cellIndex = this.getCellIndex(this.sketch.mouseX, this.sketch.mouseY);
-			if(this.draggable && this.cell_stacks[cellIndex].length > 0) {
-				this.dragCellIndex = cellIndex;
-				this.dragImage = this.cell_stacks[cellIndex].pop();
-				this.dragImageX = this.cell_coords[cellIndex].x;
-				this.dragImageY = this.cell_coords[cellIndex].y;
-				this.mouseOffsetX = this.sketch.mouseX - this.dragImageX;
-				this.mouseOffsetY = this.sketch.mouseY - this.dragImageY;
-			}
+		let cellIndex = this.getCellIndex(mouseX, mouseY);
+		if(this.cell_stacks[cellIndex].length > 0) {
+			this.dragCellIndex = cellIndex;
+			this.dragImage = this.cell_stacks[cellIndex].pop();
+			this.dragImageX = this.cell_coords[cellIndex].x;
+			this.dragImageY = this.cell_coords[cellIndex].y;
+			this.mouseOffsetX = mouseX - this.dragImageX;
+			this.mouseOffsetY = mouseY - this.dragImageY;
 		}
 	}
 
 	mouseDragged() {
-		if(this.draggable) {
-			this.dragImageX = this.sketch.mouseX - this.mouseOffsetX;
-			this.dragImageY = this.sketch.mouseY - this.mouseOffsetY;
-		}
+		this.dragImageX = mouseX - this.mouseOffsetX;
+		this.dragImageY = mouseY - this.mouseOffsetY;
 	}
 
 	mouseReleased() {
 		if(this.dragCellIndex != -1) {
-			let cellIndex = this.getCellIndex(this.sketch.mouseX, this.sketch.mouseY);
+			let cellIndex = this.getCellIndex(mouseX, mouseY);
 			this.cell_stacks[cellIndex].push(this.dragImage);
 			this.dragCellIndex = -1;
 			this.dragImageX = 0;
