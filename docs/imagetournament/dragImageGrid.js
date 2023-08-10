@@ -1,5 +1,8 @@
+const DEFAULT_CELL_SIZE = 150;
+const DEFAULT_DRAGGABLE = true;
+
 class DragImageGrid {
-	constructor(sketch, relative_paths, containerWidth, containerHeight, cellWidth = 150, cellHeight = 150, draggable = true) {
+	constructor(sketch, relative_paths, containerWidth, containerHeight = containerWidth, cellWidth = DEFAULT_CELL_SIZE, cellHeight = DEFAULT_CELL_SIZE, draggable = DEFAULT_DRAGGABLE) {
 		this.sketch = sketch
 		this.containerWidth = containerWidth;
 		this.containerHeight = containerHeight;
@@ -11,17 +14,11 @@ class DragImageGrid {
 		this.minStackSize = 1;
 		this.maxStackSize = 1;
 		this.draggable = draggable;
+		this.activeTouches = {};
 
 		this.cols = Math.trunc( containerWidth / cellWidth );
 		this.rows = Math.trunc( containerHeight / cellHeight );
 		this.num_cells = this.rows * this.cols;
-
-		this.dragCellIndex = -1;
-		this.dragImage;
-		this.dragImageX = 0;
-		this.dragImageY = 0;
-		this.mouseOffsetX = 0;
-		this.mouseOffsetY = 0;
 
 		for(let i = 0; i < this.rows; i++) {
 			for(let j=0; j< this.cols; j++) {
@@ -46,13 +43,83 @@ class DragImageGrid {
 		return ( row * this.cols ) + col;
 	}
 
-	nextFilledCell(i) {
-		for(let j = i + 1; j < this.cell_stacks.length; j++) {
-			if( this.cell_stacks[j].length > 0 ) {
-				return j;
-			}
+	startDrag(x, y, id) {
+		let cellIndex = this.getCellIndex(x, y);
+		if (this.cell_stacks[cellIndex].length > 0) {
+			this.activeTouches[id] = {
+				dragCellIndex: cellIndex,
+				dragImage: this.cell_stacks[cellIndex].pop(),
+				dragImageX: this.cell_coords[cellIndex].x,
+				dragImageY: this.cell_coords[cellIndex].y,
+				mouseOffsetX: x - this.cell_coords[cellIndex].x,
+				mouseOffsetY: y - this.cell_coords[cellIndex].y
+			};
 		}
-		return -1;
+	}
+
+	moveDrag(x, y, id) {
+		const activeTouch = this.activeTouches[id];
+		if (activeTouch) {
+			activeTouch.dragImageX = x - activeTouch.mouseOffsetX;
+			activeTouch.dragImageY = y - activeTouch.mouseOffsetY;
+		}
+	}
+
+	endDrag(x, y, id) {
+		const activeTouch = this.activeTouches[id];
+		if (activeTouch) {
+			let cellIndex = this.getCellIndex(x, y);
+			this.cell_stacks[cellIndex].push(activeTouch.dragImage);
+			delete this.activeTouches[id];
+		}
+	}
+
+	mousePressed() {
+		if(!this.draggable) {
+			return;
+		}
+		this.startDrag(this.sketch.mouseX, this.sketch.mouseY, 'mouse');
+	}
+
+	mouseDragged() {
+		if(!this.draggable) {
+			return;
+		}
+		this.moveDrag(this.sketch.mouseX, this.sketch.mouseY, 'mouse');
+	}
+
+	mouseReleased() {
+		if(!this.draggable) {
+			return;
+		}
+		this.endDrag(this.sketch.mouseX, this.sketch.mouseY, 'mouse');
+	}
+
+	touchStarted(event) {
+		if(!this.draggable) {
+			return;
+		}
+		for (let touch of event.touches) {
+			this.startDrag(touch.x, touch.y, touch.identifier);
+		}
+	}
+
+	touchMoved(event) {
+		if(!this.draggable) {
+			return;
+		}
+		for (let touch of event.touches) {
+			this.moveDrag(touch.x, touch.y, touch.identifier);
+		}
+	}
+
+	touchEnded(event) {
+		if(!this.draggable) {
+			return;
+		}
+		for (let touch of event.touches) {
+			this.endDrag(touch.x, touch.y, touch.identifier);
+		}
 	}
 
 	draw() {
@@ -63,71 +130,64 @@ class DragImageGrid {
 
 			// if less images than needed, fill from next cell
 			if( num_stack_imgs < this.minStackSize ) {
-				next_id = this.nextFilledCell(i);
-				if( next_id > 0 ) {
-					this.cell_stacks[i].push( this.cell_stacks[next_id].pop() );
-				}
+				fillFromNext(i);
 			}
 			// if too many images, push to next
 			else if( num_stack_imgs > this.maxStackSize ) {
-				if( i+1 < this.cell_stacks.length ) {
-					this.cell_stacks[i+1].push( this.cell_stacks[i].shift() )
-				}
+				pushToNext(i);
 			}
+			// draw the top image of the current cell
+			this.drawCell(i);
+		}
+		// draw all active touches
+		for (const id in this.activeTouches) {
+			drawTouch(id);
+		}
+	}
 
-			// if any left, draw top
-			if(num_stack_imgs > 0) {
-				this.sketch.image(
-					this.cell_stacks[i][ this.cell_stacks[i].length - 1 ],
-					this.cell_coords[i].x,
-					this.cell_coords[i].y,
-					this.cellWidth,
-					this.cellHeight
-				);
+	fillFromNext(i) {
+		next_id = this.nextFilledCell(i);
+		if( next_id > 0 ) {
+			this.cell_stacks[i].push( this.cell_stacks[next_id].pop() );
+		}
+	}
+
+	nextFilledCell(i) {
+		for(let j = i + 1; j < this.cell_stacks.length; j++) {
+			if( this.cell_stacks[j].length > 0 ) {
+				return j;
 			}
 		}
+		return -1;
+	}
 
-		if(this.dragCellIndex != -1) {
+	pushToNext(i) {
+		if( i+1 < this.cell_stacks.length ) {
+			this.cell_stacks[i+1].push( this.cell_stacks[i].shift() )
+		}
+	}
+
+	drawCell(i) {
+		// if any images exist, draw the top one
+		if(this.cell_stacks[i].length > 0) {
 			this.sketch.image(
-				this.dragImage,
-				this.dragImageX,
-				this.dragImageY,
+				this.cell_stacks[i][ this.cell_stacks[i].length - 1 ],
+				this.cell_coords[i].x,
+				this.cell_coords[i].y,
 				this.cellWidth,
 				this.cellHeight
 			);
 		}
 	}
-  
-	mousePressed() {
-		if(this.draggable) {
-			let cellIndex = this.getCellIndex(this.sketch.mouseX, this.sketch.mouseY);
-			if(this.draggable && this.cell_stacks[cellIndex].length > 0) {
-				this.dragCellIndex = cellIndex;
-				this.dragImage = this.cell_stacks[cellIndex].pop();
-				this.dragImageX = this.cell_coords[cellIndex].x;
-				this.dragImageY = this.cell_coords[cellIndex].y;
-				this.mouseOffsetX = this.sketch.mouseX - this.dragImageX;
-				this.mouseOffsetY = this.sketch.mouseY - this.dragImageY;
-			}
-		}
-	}
 
-	mouseDragged() {
-		if(this.draggable) {
-			this.dragImageX = this.sketch.mouseX - this.mouseOffsetX;
-			this.dragImageY = this.sketch.mouseY - this.mouseOffsetY;
-		}
-	}
-
-	mouseReleased() {
-		if(this.dragCellIndex != -1) {
-			let cellIndex = this.getCellIndex(this.sketch.mouseX, this.sketch.mouseY);
-			this.cell_stacks[cellIndex].push(this.dragImage);
-			this.dragCellIndex = -1;
-			this.dragImageX = 0;
-			this.dragImageY = 0;
-			this.mouseOffsetX = 0;
-			this.mouseOffsetY = 0;
-		}
+	drawTouch(id) {
+		const touch = this.activeTouches[id];
+		this.sketch.image(
+			touch.dragImage,
+			touch.dragImageX,
+			touch.dragImageY,
+			this.cellWidth,
+			this.cellHeight
+		);
 	}
 }
