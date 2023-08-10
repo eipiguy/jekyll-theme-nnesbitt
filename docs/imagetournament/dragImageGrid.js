@@ -45,7 +45,7 @@ class DragImageGrid {
 
 	startDrag(x, y, id) {
 		let cellIndex = this.getCellIndex(x, y);
-		if (this.cell_stacks[cellIndex].length > 0) {
+		if (cellIndex < this.num_cells && this.cell_stacks[cellIndex].length > 0) {
 			this.activeTouches[id] = {
 				dragCellIndex: cellIndex,
 				dragImage: this.cell_stacks[cellIndex].pop(),
@@ -69,8 +69,10 @@ class DragImageGrid {
 		const activeTouch = this.activeTouches[id];
 		if (activeTouch) {
 			let cellIndex = this.getCellIndex(x, y);
-			this.cell_stacks[cellIndex].push(activeTouch.dragImage);
-			delete this.activeTouches[id];
+			if(cellIndex < this.num_cells) {
+				this.cell_stacks[cellIndex].push(activeTouch.dragImage);
+				delete this.activeTouches[id];
+			}
 		}
 	}
 
@@ -123,30 +125,29 @@ class DragImageGrid {
 	}
 
 	draw() {
-		let next_id = -1;
 		let num_stack_imgs = 0;
 		for (let i = 0; i < this.cell_stacks.length; i++) {
 			num_stack_imgs =  this.cell_stacks[i].length;
 
 			// if less images than needed, fill from next cell
 			if( num_stack_imgs < this.minStackSize ) {
-				fillFromNext(i);
+				this.fillFromNext(i);
 			}
 			// if too many images, push to next
 			else if( num_stack_imgs > this.maxStackSize ) {
-				pushToNext(i);
+				this.pushToNext(i);
 			}
 			// draw the top image of the current cell
 			this.drawCell(i);
 		}
 		// draw all active touches
 		for (const id in this.activeTouches) {
-			drawTouch(id);
+			this.drawTouch(id);
 		}
 	}
 
 	fillFromNext(i) {
-		next_id = this.nextFilledCell(i);
+		const next_id = this.nextFilledCell(i);
 		if( next_id > 0 ) {
 			this.cell_stacks[i].push( this.cell_stacks[next_id].pop() );
 		}
