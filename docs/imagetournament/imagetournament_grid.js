@@ -14,7 +14,7 @@ const grid_sketch = (sketch) => {
 
 		let num_cols = 5;
 		let cell_size = containerWidth / num_cols;
-		grid = new DragImageGrid(sketch, relative_paths, containerWidth, containerHeight, cell_size, cell_size);
+		grid = new DragImageGrid(sketch, relative_paths, containerWidth);
 	}
 
 	sketch.draw = () => {
