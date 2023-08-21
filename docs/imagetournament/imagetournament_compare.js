@@ -9,7 +9,7 @@ const nup_sketch = (sketch) => {
 
 	sketch.setup = () => {
 		const containerWidth = document.getElementById('nup-container').offsetWidth;
-		const containerHeight = containerWidth / 2
+		const containerHeight = containerWidth / 3
 		sketch.createCanvas(containerWidth, containerHeight);
 		//noLoop();
 
@@ -30,9 +30,9 @@ const nup_sketch = (sketch) => {
 // 		grid.mouseDragged();
 // 	}
 // 
-	sketch.mouseReleased = () => {
-		grid.click( sketch.mouseX, sketch.mouseY );
-	}
+	// sketch.mouseReleased = () => {
+	// 	grid.click( sketch.mouseX, sketch.mouseY );
+	// }
 // 
 // 	sketch.touchStarted = (event) => {
 // 		grid.touchStarted(event);
@@ -42,11 +42,11 @@ const nup_sketch = (sketch) => {
 // 		grid.touchMoved(event);
 // 	}
 // 
-	sketch.touchEnded = (event) => {
-		if( touches.length == 1 ) {
-			grid.click( sketch.touches[0].x, sketch.touches[0].y );
-		}
-	}
+	// sketch.touchEnded = (event) => {
+	// 	if( touches.length == 1 ) {
+	// 		grid.click( sketch.touches[0].x, sketch.touches[0].y );
+	// 	}
+	// }
 }
 
 let nup_p5 = new p5(nup_sketch, 'nup-container');

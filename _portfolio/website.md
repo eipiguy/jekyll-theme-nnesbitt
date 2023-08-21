@@ -24,7 +24,7 @@ You'll be reinventing the wheel if you don't go to the market and see what other
 
 - [Happy Coding](https://happycoding.io/) is a little boxy, but one of the few "blogs" with working demos
 
-There aren't a lot, and that's the problem.
+There aren't a lot, and that's the problem. I want to interact with an audience, not just spout things at them.
 
 ## Off Ramp
 

@@ -1,0 +1,64 @@
+### Maybe some math? Don't run! Please come back!
+
+Just to be able to talk about what we're working with, let's give our collection of images a name,
+
+$$C = \{ C_k \vert k = \overline{1,N} \}$$, so that $$\|C\| = N$$,\
+$$\|C\|$$ means the "[cardinality](https://mathworld.wolfram.com/CardinalNumber.html)", which is like the "size" of the collection, and *in this case*, is equivalent to the number of elements in the set.
+
+"$$C$$" is not a descriptive name for sure, but it's short and unique, and that's what matters normally when trying to talk about lots of complicated things. It's built for typing and writing quickly. For encompassing an idea that would normally take a sentence, in a single character.
+
+Quite useful if you're careful about the symbols really. We can always drift into [UTF-8](https://en.wikipedia.org/wiki/UTF-8) if we run out of [ASCII](https://en.wikipedia.org/wiki/ASCII). Different fonts are another way to work around things.
+
+## Now for something completely different
+
+Now that you have what you think is your line of images, let us try to replicate the same thing with other methods. I'll start with my second instinct: more rudimentary, but hopefully fewer, comparisons.
+
+
+
+## Sub-Groups
+
+I bet the first thing you thought when looking at those images is "man, there's a lot of this same thing over and over!"
+
+Indeed there is. And you might then realize that our line is going to end up with them either bunched up, or mixed together, depending on the user's choices.
+
+### Simple Examples
+
+So let's just imagine a simple example where there are only 2 image types, $$A$$ and $$B$$, with $$m$$ and $$n$$ versions of each, such that $$m + n = N$$
+
+$$A = \{ A_i \vert i = \overline{ 1, m } \}$$\
+$$B = \{ B_i \vert i = \overline{ 1, n } \}$$
+
+They are both part of a collection of images, $$C = A \cup B$$, that we will put an unknown ordering on, using the standard operator "$$>$$" to mean "left hand side better than right hand side".
+
+We can assume without loss of generality that the groups are sorted with the first being the "best" of the group, and the last corresponding to the "worst", so that
+$$i > j$$ implies $$A_i > A_j$$
+
+If there is no overlap between $$A$$ and $$B$$, and you take a similar convention that for each element of $$A_i \in A$$ and $$B_j \in B$$, $$A_i > B_j$$, then the graph is quite uninteresting.
+
+<div class="mermaid">
+graph LR
+
+subgraph better_group["Better Group"]
+  best["A1"]-->a_dots["..."]-->better["Am"]
+end
+
+subgraph worse_group["Worse Group"]
+  worse["B1"]-->b_dots["..."]-->worst["Bn"]
+end
+
+better_group-->worse_group
+</div>
+
+Implying the global ranking: $$A_1 > \dots > A_m > B_1 > \dots > B_n$$.
+<div class="mermaid">
+
+best["A1"]-->a_dots["..."]-->better["Am"]-->worse["B1"]-->b_dots["..."]-->worst["Bn"]
+</div>
+
+A bit like mutually exclusive segments on a line. In fact this feels a bit like looking at segments on a discrete number line, but through the perspective of a linked list!
+
+> I really want a discrete number line graphic here, but I'm having a hard time find an easy way to make them.
+
+So what if these segments overlap? What if the "best bad image" is better than the "worst good image"?
+
+Then there is some mixing, and that's when things are more interesting from a structure standpoint.
